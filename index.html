@@ -1,126 +1,151 @@
-<!-- updated -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Neon Serverless Site</title>
+<title>Neon Login</title>
 
-<!-- Google Font -->
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
 
 <style>
-    * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-        font-family: 'Orbitron', sans-serif;
-    }
-    body {
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Orbitron', sans-serif;
+}
+
+body {
     height: 100vh;
     background: linear-gradient(135deg, #0a0f2c, #1a1f4d, #3a0ca3);
-    color: white;
     display: flex;
     justify-content: center;
     align-items: center;
+    color: white;
     overflow: hidden;
 }
 
-    /* Animated Background Glow */
-    body::before {
-        content: "";
-        position: absolute;
-        width: 200%;
-        height: 200%;
-        background: radial-gradient(circle, rgba(0,255,255,0.2), transparent 70%);
-        animation: rotate 10s linear infinite;
-        z-index: 0;
-    }
+/* Background glow animation */
+body::before {
+    content: "";
+    position: absolute;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(0,255,255,0.2), transparent 70%);
+    animation: rotate 10s linear infinite;
+}
 
-    @keyframes rotate {
-        0% { transform: rotate(0deg); }
-        100% { transform: rotate(360deg); }
-    }
+@keyframes rotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
 
-    .container {
-        text-align: center;
-        z-index: 1;
-    }
+/* Login box */
+.container {
+    position: relative;
+    padding: 40px;
+    border-radius: 20px;
+    backdrop-filter: blur(15px);
+    background: rgba(0, 0, 0, 0.4);
+    text-align: center;
+    box-shadow: 0 0 30px rgba(0,255,255,0.3);
+    animation: float 4s ease-in-out infinite;
+}
 
-    h1 {
-        font-size: 3rem;
-        color: #0ff;
-        text-shadow: 0 0 10px #0ff, 0 0 20px #0ff;
-        animation: glow 2s infinite alternate;
-    }
+@keyframes float {
+    0%,100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
 
-    @keyframes glow {
-        from { text-shadow: 0 0 10px #0ff; }
-        to { text-shadow: 0 0 25px #0ff, 0 0 40px #0ff; }
-    }
+h2 {
+    margin-bottom: 20px;
+    color: #0ff;
+    text-shadow: 0 0 15px #0ff;
+}
 
-    p {
-        margin: 20px 0;
-        font-size: 1.2rem;
-        color: #ccc;
-    }
+/* Inputs */
+.input-box {
+    position: relative;
+    margin: 15px 0;
+}
 
-    .btn {
-        padding: 12px 25px;
-        border: 2px solid #0ff;
-        background: transparent;
-        color: #0ff;
-        font-size: 1rem;
-        cursor: pointer;
-        border-radius: 30px;
-        transition: 0.3s;
-        box-shadow: 0 0 10px #0ff;
-    }
+.input-box input {
+    width: 250px;
+    padding: 12px;
+    border: none;
+    outline: none;
+    border-radius: 10px;
+    background: rgba(255,255,255,0.1);
+    color: white;
+    box-shadow: 0 0 10px rgba(0,255,255,0.2);
+}
 
-    .btn:hover {
-        background: #0ff;
-        color: black;
-        box-shadow: 0 0 25px #0ff, 0 0 50px #0ff;
-        transform: scale(1.1);
-    }
+.input-box input:focus {
+    box-shadow: 0 0 20px #0ff;
+}
 
-    /* Floating animation */
-    .card {
-        margin-top: 30px;
-        padding: 20px;
-        border: 1px solid rgba(0,255,255,0.3);
-        border-radius: 15px;
-        backdrop-filter: blur(10px);
-        animation: float 3s ease-in-out infinite;
-        box-shadow: 0 0 20px rgba(0,255,255,0.2);
-    }
+/* Button */
+button {
+    margin-top: 20px;
+    padding: 12px 25px;
+    border: 2px solid #0ff;
+    background: transparent;
+    color: #0ff;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: 0.3s;
+    box-shadow: 0 0 10px #0ff;
+}
 
-    @keyframes float {
-        0%, 100% { transform: translateY(0); }
-        50% { transform: translateY(-10px); }
-    }
+button:hover {
+    background: #0ff;
+    color: black;
+    box-shadow: 0 0 25px #0ff, 0 0 50px #0ff;
+    transform: scale(1.1);
+}
 
+/* Error text */
+#error {
+    margin-top: 10px;
+    color: red;
+    font-size: 0.9rem;
+}
 </style>
 </head>
 
 <body>
 
 <div class="container">
-    <h1>⚡ Neon Serverless Site</h1>
-    <p>Deployed using modern serverless technology</p>
+    <h2> Login</h2>
 
-    <button class="btn" onclick="showMessage()">Launch Interaction</button>
-
-    <div class="card">
-        <p>✨ No Backend Required</p>
-        <p>🚀 Fully Animated UI</p>
-        <p>🌐 Cloud Ready Deployment</p>
+    <div class="input-box">
+        <input type="text" id="username" placeholder="Username">
     </div>
+
+    <div class="input-box">
+        <input type="password" id="password" placeholder="Password">
+    </div>
+
+    <button onclick="login()">Login</button>
+
+    <div id="error"></div>
 </div>
 
 <script>
-function showMessage() {
-    alert("⚡ Welcome! This is a serverless interactive UI.");
+function login() {
+    let user = document.getElementById("username").value;
+    let pass = document.getElementById("password").value;
+    let error = document.getElementById("error");
+
+    if(user === "admin" && pass === "1234") {
+        error.innerHTML = "";
+        document.body.style.opacity = "0";
+        setTimeout(() => {
+            window.location.href = "dashboard.html";
+        }, 500);
+    } else {
+        error.innerHTML = "❌ Invalid Username or Password";
+    }
 }
 </script>
 
